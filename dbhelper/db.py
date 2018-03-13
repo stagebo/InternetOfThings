@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from pymongo import MongoClient
+import time
+
 
 conn = MongoClient('127.0.0.1', 27017)
 db = conn.mydb  #连接mydb数据库，没有则自动创建
@@ -17,11 +19,20 @@ def find(condition=None):
         return dbdevice.find()
 
 if __name__ == '__main__':
+    now = int(round(time.time() * 1000))
+    target = now - 5 * 1000
+    str_target = str(target)
     condition = {
-        "id":1,
-        "time":{
-            "$gte":'2018-3-13 10:42:40'
+        'id': '1',
+        'time': {
+            "$gte": str_target
         }
     }
-    for i in find(condition):
-        print(i)
+    print(str_target)
+
+    ret = db.db.device.find(condition)
+    retdata = []
+    for row in ret:
+        print(row)
+
+

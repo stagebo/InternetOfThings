@@ -26,9 +26,9 @@ class HistoryHandler(pyrestful.rest.RestHandler):
         self.render("history/index.html")
 
     @get(_path="/history/get_fivemin_data",_produces=mediatypes.APPLICATION_JSON)
-    def get_index(self):
+    def get_fivemin_data(self):
         try:
-            device_id = self.get_argument("id",None)
+            device_id = int(self.get_argument("id",None))
             if not device_id:
                 return {"ret":0,"msg":"id不能为空"}
             now = int(round(time.time() * 1000))

@@ -3,8 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>实时数据展示中心</title>
+    <link rel="stylesheet" href="static/plugins/Bootstrap/css/bootstrap-theme.css">
+
+
+    <script src="static/plugins/jquery/jquery-1.12.2.js"></script>
+    <link rel="stylesheet" href="static/plugins/Bootstrap/css/bootstrap.css">
+    <script src="static/plugins/Bootstrap/js/bootstrap.js"></script>
+     <script src="static/plugins/ECharts/echarts.js"></script>
+    <style>
+        body{
+            background-color:rgb(125,146,131);
+        }
+        .chart-box{
+            width:45%;
+            height:240px;
+            float:left;
+            border:1px solid;
+            border-radius:5px;
+            margin-left:1%;
+            margin-top:1%;
+        }
+    </style>
 </head>
-<body>
-     <center><h1>实时数据展示中心</h1></center>
+<body >
+     <center style="z-index:9999;"><h1>实时数据展示中心</h1></center>
+    <div class="container pull-left col-3" style="float:left;width:20%;">
+        <div class="row">
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+        </div>  <hr>
+         <div class="row">
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+        </div>  <hr>
+
+         <div class="row">
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+        </div>  <hr>
+         <div class="row">
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+        </div>  <hr>
+         <div class="row">
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+        </div>
+
+
+    </div>
+    <div class="container" style="float:left;width:80%;">
+          <div class="chart-box" id="chart_1"></div>
+          <div class="chart-box" id="chart_2"></div>
+          <div class="chart-box" id="chart_3"></div>
+          <div class="chart-box" id="chart_4"></div>
+
+    </div>
+    <script>
+        $(function(){
+            showChart(1);
+
+        });
+        function showChart(dviceid){
+            $.ajax({
+                method:'get',
+                url:'/showrd/getdata',
+                dataType:'json',
+                success:function(jsonData){
+                    console.log(jsonData);
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line'
+                }]
+            };
+             var myChart=echarts.init(document.getElementById("chart_1"))  ;
+              myChart.setOption(option)  ;
+              var myChart2=echarts.init(document.getElementById("chart_2"))  ;
+              myChart2.setOption(option)  ;
+              var myChart3=echarts.init(document.getElementById("chart_3"))  ;
+              myChart3.setOption(option)  ;
+              var myChart4=echarts.init(document.getElementById("chart_4"))  ;
+              myChart4.setOption(option)  ;
+        }
+    </script>
 </body>
 </html>

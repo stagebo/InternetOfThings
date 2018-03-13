@@ -65,7 +65,7 @@ def business(client,userdata,msg):
     if not device_id.isdigit():
         return
     ms = json.loads(str(msg.payload, "utf-8"))
-    # db.insert(ms)
+    db.insert(ms)
     print(topic,ms)
 
 
