@@ -41,26 +41,41 @@ def toLength(s, l):
 
 def sendMsg():
 
-    topic = "zhangjing/device/1"
+
 
     itemList = []
     now = datetime.datetime.now()
-    item = {
-        "id": random.randint(1, 10),
-        "data":123123
+    zero = datetime.datetime(now.year,now.month,now.day,0,0,0)
+    timedel = now - zero
+    seconds = timedel.seconds
+    if seconds%5 != 0:
+        return
 
-    }
-
-    msg = {
-        "time": str(now),
-        "data": item}
-    msg = json.dumps(msg)
-
-    msgItem = {'topic': topic, 'payload': msg, 'qos': qos}
-    # msgItem = (topic,msg)
     msgs = []
-    msgs.append(msgItem)
-    print(msgItem)
+    timemark = now.strftime("%Y-%m-%d %H:%M:%S")
+    for i in range(1,11):
+        topic = "zhangjing/device/%s"%i
+        msg = {
+            "id":i,
+            "time":timemark,
+
+            "1001": random.randint(5,9), # 温度
+            "1002": random.randint(210, 250), # 电压
+            "1003": random.randint(500, 600)/1000, # 电流
+            "1004": random.randint(100, 200),# 属性1
+            "1005": random.randint(100, 200),# 属性2
+            "1006": random.randint(100, 200),# 属性3
+            "1007": random.randint(100, 200),# 属性4
+            "1008": random.randint(100, 200),# 属性5
+            "1009": random.randint(100, 200),# 属性6
+            "1010": random.randint(100, 200),# 属性7
+        }
+        msg = json.dumps(msg)
+
+        msgItem = {'topic': topic, 'payload': msg, 'qos': qos}
+        # msgItem = (topic,msg)
+        print(msgItem)
+        msgs.append(msgItem)
     publish.multiple(msgs,
                      auth={
                          'username': username,
@@ -70,11 +85,12 @@ def sendMsg():
                      protocol=mqtt.MQTTv311,
                      hostname=hostname)
     print("message is sent.")
-    time.sleep(1)
+
 if __name__ == "__main__":
     while True:
         try:
             sendMsg()
+            time.sleep(1)
         except:
             print('连接mqtt服务器失败！')
             traceback.print_exc()

@@ -12,7 +12,7 @@ import json
 import sys
 import logging
 sys.path.append("..")
-
+from dbhelper import db
 
 cf = configparser.ConfigParser()
 cf.read("../app.conf")
@@ -53,10 +53,18 @@ def on_message(client, userdata, msg):
     #在这里处理业务逻辑
     topic = msg.topic
     ms = str(msg.payload, "utf-8")
-    print(topic,ms)
+    business(client,userdata,msg)
 
 def business(client,userdata,msg):
-    pass
+    topic = msg.topic
+    topic_info = topic.split('/')
+    device_id = topic_info[2]
+    if not device_id.isdigit():
+        return
+    ms = json.loads(str(msg.payload, "utf-8"))
+    db.insert(ms)
+    print(topic,ms)
+
 
 if __name__ == "__main__":
 
