@@ -31,17 +31,18 @@ class HistoryHandler(pyrestful.rest.RestHandler):
             device_id = self.get_argument("id",None)
             if not device_id:
                 return {"ret":0,"msg":"id不能为空"}
-            now = datetime.datetime.now()
-            target = now - datetime.timedelta(minutes=5)
-            str_target = target.strftime("%Y-%m-%d %H:%M:%S")
+            now = int(round(time.time() * 1000))
+            target = now - 5*1000
+            str_target =str(target)
             condition = {
-                id:device_id,
-                time:{
+                "id":device_id,
+                "time":{
                     "$gte":str_target
                 }
             }
-            ret = db.find(condition)
-            return ret
+            print(condition)
+            # ret = db.find(condition)
+            # return ret
         except:
             traceback.print_exc()
 

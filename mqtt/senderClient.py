@@ -52,12 +52,16 @@ def sendMsg():
         return
 
     msgs = []
-    timemark = now.strftime("%Y-%m-%d %H:%M:%S")
+    # timemark = now.strftime("%Y-%m-%d %H:%M:%S")
+    # timemark = int(time.mktime(now))
+    timemark = int(round(time.time() * 1000))
+    # print(timemark)
+    # return
     for i in range(1,11):
         topic = "zhangjing/device/%s"%i
         msg = {
             "id":i,
-            "time":timemark,
+            "time":str(timemark),
 
             "1001": random.randint(5,9), # 温度
             "1002": random.randint(210, 250), # 电压
