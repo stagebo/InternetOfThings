@@ -27,16 +27,21 @@ class HistoryHandler(pyrestful.rest.RestHandler):
 
     @get(_path="/history/get_fivemin_data",_produces=mediatypes.APPLICATION_JSON)
     def get_index(self):
-        device_id = self.get_argument("id",None)
-        now = datetime.datetime.now()
-        target = now - datetime.timedelta(minutes=5)
-        str_target = target.strftime("%Y-%m-%d %H:%M:%S")
-        condition = {
-            id:device_id,
-            time:{
-                "$gte":str_target
+        try:
+            device_id = self.get_argument("id",None)
+            if not device_id:
+                return {"ret":0,"msg":"id不能为空"}
+            now = datetime.datetime.now()
+            target = now - datetime.timedelta(minutes=5)
+            str_target = target.strftime("%Y-%m-%d %H:%M:%S")
+            condition = {
+                id:device_id,
+                time:{
+                    "$gte":str_target
+                }
             }
-        }
-        ret = db.find(condition)
-        return ret
+            ret = db.find(condition)
+            return ret
+        except:
+            traceback.print_exc()
 
