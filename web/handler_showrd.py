@@ -27,14 +27,14 @@ class ShowrdHandler(pyrestful.rest.RestHandler):
         self.render("showrd/index.html")
 
 
-    @get(_path="/showrds/get_fivemin_data",_produces=mediatypes.APPLICATION_JSON)
+    @get(_path="/showrd/get_fivemin_data",_produces=mediatypes.APPLICATION_JSON)
     def get_fivemin_data(self):
         try:
             device_id = int(self.get_argument("id",None))
             if not device_id:
                 return {"ret":0,"msg":"id不能为空"}
             now = int(round(time.time() * 1000))
-            target = now - 5*1000
+            target = now - 5*1000*60
             str_target =str(target)
             condition = {
                 'id':device_id,

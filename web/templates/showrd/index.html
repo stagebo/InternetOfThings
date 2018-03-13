@@ -62,10 +62,32 @@
         function showChart(dviceid){
             $.ajax({
                 method:'get',
-                url:'/showrd/getdata',
+                url:'showrd/get_fivemin_data?id='+deviceid,
                 dataType:'json',
                 success:function(jsonData){
                     console.log(jsonData);
+                    //{"1001":5,"1002":229,"1003":0.545,"1004":114,"1005":136,"1006":135,"1007":151,"1008":192,"1009":137,"1010":109,"id":1,"time":"1520942430677"}"
+                    var xdata = [];
+                    var ydata = [];
+                    for(var i=0;i<jsonData.length;i++){
+                        xdata.push(jsonData["time"]);
+                        ydata.push(jsonData("1001"));
+                        option = {
+                            xAxis: {
+                                type: 'category',
+                                data: xdata
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                data: ydata,
+                                type: 'line'
+                            }]
+                        };
+                         var myChart=echarts.init(document.getElementById("chart_1"))  ;
+                          myChart.setOption(option)  ;
+                    }
                 },
                 error:function(e){
                     console.log(e);
@@ -84,8 +106,7 @@
                     type: 'line'
                 }]
             };
-             var myChart=echarts.init(document.getElementById("chart_1"))  ;
-              myChart.setOption(option)  ;
+
               var myChart2=echarts.init(document.getElementById("chart_2"))  ;
               myChart2.setOption(option)  ;
               var myChart3=echarts.init(document.getElementById("chart_3"))  ;
