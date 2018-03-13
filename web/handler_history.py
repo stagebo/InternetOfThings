@@ -7,7 +7,7 @@ import sys
 import os
 import datetime
 sys.path.append("..")
-
+from dbhelper import db
 import logging
 from pyrestful.rest import get, post, put, delete
 from pyrestful import mediatypes
@@ -25,5 +25,18 @@ class HistoryHandler(pyrestful.rest.RestHandler):
     def get_index(self):
         self.render("history/index.html")
 
-
+    @get(_path="/history/get_fivemin_data",_produces=mediatypes.APPLICATION_JSON)
+    def get_index(self):
+        device_id = self.get_argument("id",None)
+        now = datetime.datetime.now()
+        target = now - datetime.timedelta(minutes=5)
+        str_target = target.strftime("%Y-%m-%d %H:%M:%S")
+        condition = {
+            id:device_id,
+            time:{
+                "$gte":str_target
+            }
+        }
+        ret = db.find(condition)
+        return ret
 

@@ -53,7 +53,10 @@ def on_message(client, userdata, msg):
     #在这里处理业务逻辑
     topic = msg.topic
     ms = str(msg.payload, "utf-8")
-    business(client,userdata,msg)
+    try:
+        business(client,userdata,msg)
+    except:
+        print("business faild")
 
 def business(client,userdata,msg):
     topic = msg.topic
@@ -62,7 +65,7 @@ def business(client,userdata,msg):
     if not device_id.isdigit():
         return
     ms = json.loads(str(msg.payload, "utf-8"))
-    db.insert(ms)
+    # db.insert(ms)
     print(topic,ms)
 
 
