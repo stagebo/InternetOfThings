@@ -17,6 +17,11 @@ def find(condition=None):
         return dbdevice.find()
 
 if __name__ == '__main__':
-    insert({"name":"zhangsan","age":18})
-    for i in find(None):
+    condition = {
+        "id":1,
+        "time":{
+            "$gte":'2018-3-13 10:42:40'
+        }
+    }
+    for i in find(condition):
         print(i)
