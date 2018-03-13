@@ -40,6 +40,7 @@ class HistoryHandler(pyrestful.rest.RestHandler):
                     "$gte":str_target
                 }
             }
+            print(str_target)
 
             ret = db.db.device.find(condition)
             retdata = []
