@@ -35,14 +35,18 @@ class HistoryHandler(pyrestful.rest.RestHandler):
             target = now - 5*1000
             str_target =str(target)
             condition = {
-                "id":device_id,
-                "time":{
+                'id':device_id,
+                'time':{
                     "$gte":str_target
                 }
             }
-            print(condition)
-            # ret = db.find(condition)
-            # return ret
+
+            ret = db.db.device.find(condition)
+            retdata = []
+            for row in ret:
+                del row["_id"]
+                retdata.append(row)
+            return retdata
         except:
             traceback.print_exc()
 
