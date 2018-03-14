@@ -12,7 +12,7 @@
      <script src="static/plugins/ECharts/echarts.js"></script>
     <style>
         body{
-            background-color:rgb(125,146,131);
+            background-color:rgb(145,166,151);
         }
         .chart-box{
             width:45%;
@@ -26,25 +26,34 @@
     </style>
 </head>
 <body >
+
      <center style="z-index:9999;"><h1>实时数据展示中心</h1></center>
+
     <div class="container pull-left col-3" style="float:left;width:20%;">
+        <hr>
         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1" itype="change_device">设备1</button></center>
         </div>  <hr>
          <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="2" itype="change_device">设备2</button></center>
         </div>  <hr>
 
          <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="3" itype="change_device">设备3</button></center>
         </div>  <hr>
          <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="4" itype="change_device">设备4</button></center>
         </div>  <hr>
          <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1">设备1</button></center>
+            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="5" itype="change_device">设备5</button></center>
+        </div><hr>
+
+     <div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">
+      <strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序
+    </div>
+        <div class="alert alert-info" role="alert" id="success_window"style="display:none;">
+            <strong>连接服务器成功</strong> 正常更新实时数据，五秒一刷新，请查看右侧数据窗口。
         </div>
-
 
     </div>
     <div class="container" style="float:left;width:80%;">
@@ -54,71 +63,92 @@
           <div class="chart-box" id="chart_4"></div>
 
     </div>
+
     <script>
         $(function(){
-            showChart(1);
+            refreshChart(0);
 
+            $("[itype='change_device']").click(function(){
+                var dvcid = $(this).attr("deviceid");
+                globalData.deviceid = dvcid;
+                 refreshChart(1);
+            });
         });
-        function showChart(deviceid){
+        globalData = {
+            deviceid:1,
+        }
+        globalData.deviceid =1;
+        globalData.len = 100;
+        globalData.timeInter = 5000;
+        myChart1=echarts.init(document.getElementById("chart_1"))  ;
+        myChart2=echarts.init(document.getElementById("chart_2"))  ;
+        myChart3=echarts.init(document.getElementById("chart_3"))  ;
+        myChart4=echarts.init(document.getElementById("chart_4"))  ;
+
+        function refreshChart(flag){
+             showChart(globalData.deviceid,myChart1,1001,'最近75秒内数据--温度');
+             showChart(globalData.deviceid,myChart2,1002,'最近75秒内数据--电压');
+             showChart(globalData.deviceid,myChart3,1003,'最近75秒内数据--电流');
+             showChart(globalData.deviceid,myChart4,1004,'最近75秒内数据--属性1');
+             if(!flag){
+               setTimeout(refreshChart,globalData.timeInter);
+              }
+
+        }
+        function showChart(deviceid,chartitem,infocode,title){
             $.ajax({
                 method:'get',
                 url:'showrd/get_fivemin_data?id='+deviceid,
                 dataType:'json',
                 success:function(jsonData){
-                    console.log(jsonData);
+
                     //{"1001":5,"1002":229,"1003":0.545,"1004":114,"1005":136,"1006":135,"1007":151,"1008":192,"1009":137,"1010":109,"id":1,"time":"1520942430677"}"
                     var xdata = [];
                     var ydata = [];
                     var idx = 0;
                     for(var i=jsonData.length-1;i>0;i--){
+
                         idx++;
-                        if(idx > 15)break;
-                        xdata.push(jsonData["time"]);
-                        ydata.push(jsonData["1001"]);
+                        if(idx > globalData.len)break;
+                        xdata[xdata.length] = idx;
+                        ydata[ydata.length] = jsonData[i][infocode];
                      }
-                        var option = {
-                            xAxis: {
-                                type: 'category',
-                                data: xdata
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [{
-                                data: ydata,
-                                type: 'line'
-                            }]
-                        };
+
+                    var option = {
+                        title:[{
+                            text:title+",设备ID："+deviceid,
+
+                        }],
+                        xAxis: {
+                            type: 'category',
+                            data: xdata
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            data: ydata,
+                            type: 'line'
+                        }]
+                    };
 
 
-                     var myChart=echarts.init(document.getElementById("chart_1"))  ;
-                     myChart.setOption(option)  ;
+
+                     chartitem.setOption(option)  ;
+                     $("#alert_window").hide();
+                     $("#success_window").show();
                 },
                 error:function(e){
                     console.log(e);
+                    $("#alert_window").show();
+                      $("#success_window").hide();
                 }
             });
-            option = {
-                xAxis: {
-                    type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line'
-                }]
-            };
 
-              var myChart2=echarts.init(document.getElementById("chart_2"))  ;
-              myChart2.setOption(option)  ;
-              var myChart3=echarts.init(document.getElementById("chart_3"))  ;
-              myChart3.setOption(option)  ;
-              var myChart4=echarts.init(document.getElementById("chart_4"))  ;
-              myChart4.setOption(option)  ;
+
+
         }
+
     </script>
 </body>
 </html>
