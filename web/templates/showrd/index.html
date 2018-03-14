@@ -51,8 +51,8 @@
      <div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">
       <strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序
     </div>
-        <div class="alert alert-info" role="alert" id="success_window"style="display:none;">
-            <strong>连接服务器成功</strong> 正常更新实时数据，五秒一刷新，请查看右侧数据窗口。
+        <div class="alert alert-info" role="alert" id="success_window">
+            <strong>连接服务器成功</strong> <span id="info">服务器连接中</span>
         </div>
 
     </div>
@@ -86,10 +86,10 @@
         myChart4=echarts.init(document.getElementById("chart_4"))  ;
 
         function refreshChart(flag){
-             showChart(globalData.deviceid,myChart1,1001,'最近75秒内数据--温度');
-             showChart(globalData.deviceid,myChart2,1002,'最近75秒内数据--电压');
-             showChart(globalData.deviceid,myChart3,1003,'最近75秒内数据--电流');
-             showChart(globalData.deviceid,myChart4,1004,'最近75秒内数据--属性1');
+             showChart(globalData.deviceid,myChart1,1001,'最近5分钟内数据--温度');
+             showChart(globalData.deviceid,myChart2,1002,'最近5分钟内数据--电压');
+             showChart(globalData.deviceid,myChart3,1003,'最近5分钟内数据--电流');
+             showChart(globalData.deviceid,myChart4,1004,'最近5分钟内数据--属性1');
              if(!flag){
                setTimeout(refreshChart,globalData.timeInter);
               }
@@ -101,7 +101,10 @@
                 url:'showrd/get_fivemin_data?id='+deviceid,
                 dataType:'json',
                 success:function(jsonData){
-
+                    if(jsonData.length<1){
+                        $("#info").html("无设备连接到后台，暂无数据,请启动模拟设备发送数据。");
+                        return;
+                    }
                     //{"1001":5,"1002":229,"1003":0.545,"1004":114,"1005":136,"1006":135,"1007":151,"1008":192,"1009":137,"1010":109,"id":1,"time":"1520942430677"}"
                     var xdata = [];
                     var ydata = [];
@@ -137,6 +140,7 @@
                      chartitem.setOption(option)  ;
                      $("#alert_window").hide();
                      $("#success_window").show();
+                      $("#info").html("正常更新实时数据，五秒一刷新，请查看右侧数据窗口。");
                 },
                 error:function(e){
                     console.log(e);
