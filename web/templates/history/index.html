@@ -9,7 +9,10 @@
     <script src="static/plugins/jquery/jquery-1.12.2.js"></script>
     <link rel="stylesheet" href="static/plugins/Bootstrap/css/bootstrap.css">
     <script src="static/plugins/Bootstrap/js/bootstrap.js"></script>
-     <script src="static/plugins/ECharts/echarts.js"></script>
+    <script src="static/plugins/ECharts/echarts.js"></script>
+
+    <link rel="stylesheet" href="static/plugins/MiniUI/themes/default/miniui.css">
+    <script src="static/plugins/MiniUI/miniui.js"></script>
     <style>
         body{
             background-color:rgb(145,166,151);
@@ -27,52 +30,87 @@
 </head>
 <body >
 
-     <center style="z-index:9999;"><h1>历史数据查看中心</h1></center>
+<center style="z-index:9999;"><h1>历史数据查看中心</h1></center>
 
-    <div class="container pull-left col-3" style="float:left;width:20%;">
-        <hr>
-        <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1" itype="change_device">设备1</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="2" itype="change_device">设备2</button></center>
-        </div>  <hr>
+<div class="container pull-left col-3" style="float:left;width:20%;">
+    <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1" itype="change_device">设备1</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="2" itype="change_device">设备2</button></center>
+    </div>  <hr>
 
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="3" itype="change_device">设备3</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="4" itype="change_device">设备4</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="5" itype="change_device">设备5</button></center>
-        </div><hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="3" itype="change_device">设备3</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="4" itype="change_device">设备4</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="5" itype="change_device">设备5</button></center>
+    </div><hr>
 
-     <div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">
-      <strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序
-    </div>
-        <div class="alert alert-info" role="alert" id="success_window"style="display:none;">
-            <strong>连接服务器成功</strong> 正常更新实时数据，五秒一刷新，请查看右侧数据窗口。
+    <!--<div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">-->
+        <!--<strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序-->
+    <!--</div>-->
+    <!--<div class="alert alert-info" role="alert" id="success_window"style="display:none;">-->
+        <!--<strong>连接服务器成功</strong> 正常更新实时数据，五秒一刷新，请查看右侧数据窗口。-->
+    <!--</div>-->
+
+</div>
+
+<div class="container" style="float:left;width:80%;">
+    <div style="width:100%;">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+                        <span>选择日期</span>
+                        <input id="date1" class="mini-datepicker" />
+                        <a class="mini-button" >查询</a>
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <!--<input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;" onenter="onKeyEnter"/>-->
+                        <!--<a class="mini-button" >查询</a>-->
+                        <!--<span>当前设备<span id="show_dvcid">1</span></span>-->
+                    </td>
+                </tr>
+            </table>
         </div>
-
-    </div>
-    <div class="container" style="float:left;width:80%;">
-          <div class="chart-box" id="chart_1"></div>
-          <div class="chart-box" id="chart_2"></div>
-          <div class="chart-box" id="chart_3"></div>
-          <div class="chart-box" id="chart_4"></div>
-
     </div>
 
-    <script>
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:500px;" allowResize="false" showPageInfo="false" showPager="false"
+         allowResize="true" beforeload="loadHistoryData">
+        <div property="columns">
+            <div type="indexcolumn" >序号</div>
+            <div field="time" width="90" headerAlign="center" allowSort="true">时间</div>
+            <div field="id" width="50" headerAlign="center" dataType="int">设备ID</div>
+            <div field="1001" width="50" headerAlign="center" dataType="float">温度</div>
+            <div field="1002" width="50" dataType="float">电压</div>
+            <div field="1003" width="50" dataType="float">电流</div>
+            <div field="1004" width="80" dataType="float">属性码1</div>
+            <div field="1005" width="80" dataType="float">属性码2</div>
+            <div field="1006" width="80" dataType="float">属性码3</div>
+            <div field="1007" width="80" dataType="float">属性码4</div>
+            <div field="1008" width="80" dataType="float">属性码5</div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
         $(function(){
-            refreshChart(0);
+            mini.parse();
+            loadHistoryData();
 
-            $("[itype='change_device']").click(function(){
+              $("[itype='change_device']").click(function(){
                 var dvcid = $(this).attr("deviceid");
                 globalData.deviceid = dvcid;
-                 refreshChart(1);
+                 loadHistoryData();
             });
+
         });
         globalData = {
             deviceid:1,
@@ -80,63 +118,26 @@
         globalData.deviceid =1;
         globalData.len = 100;
         globalData.timeInter = 5000;
-        myChart1=echarts.init(document.getElementById("chart_1"))  ;
-        myChart2=echarts.init(document.getElementById("chart_2"))  ;
-        myChart3=echarts.init(document.getElementById("chart_3"))  ;
-        myChart4=echarts.init(document.getElementById("chart_4"))  ;
 
-        function refreshChart(flag){
-             showChart(globalData.deviceid,myChart1,1001,'最近75秒内数据--温度');
-             showChart(globalData.deviceid,myChart2,1002,'最近75秒内数据--电压');
-             showChart(globalData.deviceid,myChart3,1003,'最近75秒内数据--电流');
-             showChart(globalData.deviceid,myChart4,1004,'最近75秒内数据--属性1');
-             if(!flag){
-               setTimeout(refreshChart,globalData.timeInter);
-              }
-
-        }
-        function showChart(deviceid,chartitem,infocode,title){
-            $.ajax({
+        function loadHistoryData(){
+             $.ajax({
                 method:'get',
-                url:'showrd/get_fivemin_data?id='+deviceid,
+                url:'showrd/get_fivemin_data?id='+globalData.deviceid,
                 dataType:'json',
                 success:function(jsonData){
 
-                    //{"1001":5,"1002":229,"1003":0.545,"1004":114,"1005":136,"1006":135,"1007":151,"1008":192,"1009":137,"1010":109,"id":1,"time":"1520942430677"}"
-                    var xdata = [];
-                    var ydata = [];
-                    var idx = 0;
-                    for(var i=jsonData.length-1;i>0;i--){
-
-                        idx++;
-                        if(idx > globalData.len)break;
-                        xdata[xdata.length] = idx;
-                        ydata[ydata.length] = jsonData[i][infocode];
-                     }
-
-                    var option = {
-                        title:[{
-                            text:title+",设备ID："+deviceid,
-
-                        }],
-                        xAxis: {
-                            type: 'category',
-                            data: xdata
-                        },
-                        yAxis: {
-                            type: 'value'
-                        },
-                        series: [{
-                            data: ydata,
-                            type: 'line'
-                        }]
-                    };
-
-
-
-                     chartitem.setOption(option)  ;
+                    for(var i=0;i<jsonData.length;i++){
+                        var newDate = new Date();
+                        var timeint = parseInt(jsonData[i]["time"]);
+                        newDate.setTime(timeint);
+                        jsonData[i]["time"] = newDate.format('yyyy-MM-dd h:m:s');
+                    }
+                    console.log(jsonData);
+                    datagrid = mini.get("datagrid1");
+                    datagrid.setData(jsonData);
                      $("#alert_window").hide();
                      $("#success_window").show();
+                      $("#info").html("正常更新实时数据，五秒一刷新，请查看右侧数据窗口。");
                 },
                 error:function(e){
                     console.log(e);
@@ -145,9 +146,31 @@
                 }
             });
 
-
-
         }
+
+        Date.prototype.format = function(format) {
+               var date = {
+                      "M+": this.getMonth() + 1,
+                      "d+": this.getDate(),
+                      "h+": this.getHours(),
+                      "m+": this.getMinutes(),
+                      "s+": this.getSeconds(),
+                      "q+": Math.floor((this.getMonth() + 3) / 3),
+                      "S+": this.getMilliseconds()
+               };
+               if (/(y+)/i.test(format)) {
+                      format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+               }
+               for (var k in date) {
+                      if (new RegExp("(" + k + ")").test(format)) {
+                             format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                                    ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                      }
+               }
+               return format;
+        }
+        var timestamp3 = 1403058804;
+
 
     </script>
 </body>

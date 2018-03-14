@@ -63,7 +63,7 @@ def sendMsg():
             "id":i,
             "time":str(timemark),
 
-            "1001": random.randint(5,9), # 温度
+            "1001": random.randint(500,900)/100, # 温度
             "1002": random.randint(210, 250), # 电压
             "1003": random.randint(500, 600)/1000, # 电流
             "1004": random.randint(100, 200),# 属性1

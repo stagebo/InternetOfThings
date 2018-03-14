@@ -9,7 +9,7 @@
     <script src="static/plugins/jquery/jquery-1.12.2.js"></script>
     <link rel="stylesheet" href="static/plugins/Bootstrap/css/bootstrap.css">
     <script src="static/plugins/Bootstrap/js/bootstrap.js"></script>
-     <script src="static/plugins/ECharts/echarts.js"></script>
+    <script src="static/plugins/ECharts/echarts.js"></script>
     <style>
         body{
             background-color:rgb(145,166,151);
@@ -27,44 +27,44 @@
 </head>
 <body >
 
-     <center style="z-index:9999;"><h1>实时数据展示中心</h1></center>
+<center style="z-index:9999;"><h1>实时数据展示中心</h1></center>
 
-    <div class="container pull-left col-3" style="float:left;width:20%;">
-        <hr>
-        <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1" itype="change_device">设备1</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="2" itype="change_device">设备2</button></center>
-        </div>  <hr>
+<div class="container pull-left col-3" style="float:left;width:20%;">
+    <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="1" itype="change_device">设备1</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="2" itype="change_device">设备2</button></center>
+    </div>  <hr>
 
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="3" itype="change_device">设备3</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="4" itype="change_device">设备4</button></center>
-        </div>  <hr>
-         <div class="row">
-            <center> <button type="button" class="btn btn-primary btn-lg" deviceid="5" itype="change_device">设备5</button></center>
-        </div><hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="3" itype="change_device">设备3</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="4" itype="change_device">设备4</button></center>
+    </div>  <hr>
+    <div class="row">
+        <center> <button type="button" class="btn btn-primary btn-lg" deviceid="5" itype="change_device">设备5</button></center>
+    </div><hr>
 
-     <div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">
-      <strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序
+    <div class="alert alert-danger" role="alert" id="alert_window" style="display:none;">
+        <strong>错误</strong> 接收数据失败，连接服务器异常，请查看后台程序
     </div>
-        <div class="alert alert-info" role="alert" id="success_window">
-            <strong>连接服务器成功</strong> <span id="info">服务器连接中</span>
-        </div>
-
-    </div>
-    <div class="container" style="float:left;width:80%;">
-          <div class="chart-box" id="chart_1"></div>
-          <div class="chart-box" id="chart_2"></div>
-          <div class="chart-box" id="chart_3"></div>
-          <div class="chart-box" id="chart_4"></div>
-
+    <div class="alert alert-info" role="alert" id="success_window">
+        <strong>连接服务器成功</strong> <span id="info">服务器连接中</span>
     </div>
 
-    <script>
+</div>
+<div class="container" style="float:left;width:80%;">
+    <div class="chart-box" id="chart_1"></div>
+    <div class="chart-box" id="chart_2"></div>
+    <div class="chart-box" id="chart_3"></div>
+    <div class="chart-box" id="chart_4"></div>
+
+</div>
+
+<script>
         $(function(){
             refreshChart(0);
 
@@ -140,12 +140,12 @@
                      chartitem.setOption(option)  ;
                      $("#alert_window").hide();
                      $("#success_window").show();
-                      $("#info").html("正常更新实时数据，五秒一刷新，请查看右侧数据窗口。");
+                     $("#info").html("正常更新实时数据，五秒一刷新，请查看右侧数据窗口。");
                 },
                 error:function(e){
                     console.log(e);
                     $("#alert_window").show();
-                      $("#success_window").hide();
+                    $("#success_window").hide();
                 }
             });
 
