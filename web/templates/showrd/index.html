@@ -101,6 +101,7 @@
                 url:'showrd/get_fivemin_data?id='+deviceid,
                 dataType:'json',
                 success:function(jsonData){
+                    jsonData = jsonData.reverse();
                     if(jsonData.length<1){
                         $("#info").html("无设备连接到后台，暂无数据,请启动模拟设备发送数据。");
                         return;
